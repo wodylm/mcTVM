@@ -19,8 +19,6 @@
 
 from unittest import mock
 
-import pytest
-
 import tvm.testing
 from tvm.s_tir import dlight as dl
 from tvm.s_tir.dlight.gpu import low_batch_gemv
@@ -534,10 +532,6 @@ def test_outer_reduction():
     tvm.ir.assert_structural_equal(mod["main"], expected)
 
 
-@pytest.mark.xfail(
-    reason="TODO(maca): [target-attrs] support constructing a target that omits max_shared_memory_per_block",
-    strict=False,
-)
 def test_low_batch_gemv_cuda_target_without_max_shared_memory_per_block():
     # fmt: off
     @T.prim_func(private=True, s_tir=True)
