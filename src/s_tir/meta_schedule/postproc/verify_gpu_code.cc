@@ -127,13 +127,11 @@ class VerifyGPUCodeNode : public PostprocNode {
     TVM_FFI_ICHECK(context->target.has_value());
     this->target_ = context->target.value();
     this->target_constraints_ = ffi::Map<ffi::String, PrimExpr>{
+        {"max_shared_memory_per_block", Extract(this->target_, "max_shared_memory_per_block")},
         {"max_threads_per_block", Extract(this->target_, "max_threads_per_block")},
         {"max_vthread", IntImm::Int32(8)},
         {"max_vector_bytes", IntImm::Int32(16)},
     };
-    if (ffi::Optional<int64_t> v = this->target_->GetAttr<int64_t>("max_shared_memory_per_block")) {
-      this->target_constraints_.Set("max_shared_memory_per_block", IntImm::Int64(v.value()));
-    }
     if (this->target_->kind->name == "maca") {
       this->target_constraints_.Set("max_local_memory_per_block",
                                     Extract(this->target_, "max_local_memory_per_block"));
