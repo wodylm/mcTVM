@@ -1105,7 +1105,7 @@ def test_gemv_cuda_target_without_max_shared_memory_per_block():
 
     # fmt: on
 
-    target = Target({"kind": "maca", "max_num_threads": 1024})
+    target = Target({"kind": "cuda", "max_num_threads": 1024})
     assert target.attrs.get("max_shared_memory_per_block", None) is None
 
     mod = tvm.IRModule({"main": before})
